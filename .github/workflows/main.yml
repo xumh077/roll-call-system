@@ -23,11 +23,29 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller pywebview
+        pip install pyinstaller pywebview Pillow  # 额外安装 Pillow 修复图片
+
+    - name: Auto Fix Icon Format
+      shell: python
+      run: |
+        import os
+        from PIL import Image
+        # 自动读取你的 icon.png，并强制在云端生成完美的 Windows icon.ico 图标
+        if os.path.exists('icon.png'):
+            img = Image.open('icon.png')
+            img.save('icon.ico', format='ICO', sizes=[(256, 256), (128, 128), (64, 64), (32, 32)])
+            print("图标格式云端修复成功！")
+        else:
+            print("未找到 icon.png，将使用默认图标")
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --noconsole --onefile --add-data "index.html;." --add-data "icon.png;." --icon="icon.png" main.py
+        # 升级为使用刚刚修复好的标准 icon.ico
+        if (Test-Path "icon.ico") {
+            pyinstaller --noconsole --onefile --add-data "index.html;." --icon="icon.ico" main.py
+        } else {
+            pyinstaller --noconsole --onefile --add-data "index.html;." main.py
+        }
 
     - name: Upload EXE Artifact
       uses: actions/upload-artifact@v4
