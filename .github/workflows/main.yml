@@ -1,9 +1,12 @@
 name: Build Windows EXE
 
-于:
+on:
   push:
-    分支: [ "main", "master" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
