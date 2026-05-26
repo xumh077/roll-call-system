@@ -1,11 +1,10 @@
-==<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>班级专属随机点名系统</title>
     <style>
-        /* 炫酷流光渐变背景 */
         body {
             margin: 0;
             padding: 0;
@@ -28,7 +27,8 @@
             100% { background-position: 0% 50%; }
         }
 
-        。container {
+        .container {
+            position: relative;
             text-align: center;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -46,7 +46,6 @@
             letter-spacing: 2px;
         }
 
-        /* 名字显示大彩电 */
         #name-display {
             font-size: 5rem;
             color: #ffffff;
@@ -58,7 +57,6 @@
             transition: transform 0.1s ease;
         }
 
-        /* 按钮样式 */
         .btn {
             padding: 15px 50px;
             font-size: 1.5rem;
@@ -71,6 +69,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
             letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
         .btn:hover {
@@ -83,7 +82,17 @@
             transform: translateY(1px);
         }
 
-        /* 烟花画布 */
+        .copyright {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+            font-style: italic;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         #fireworks {
             position: absolute;
             top: 0;
@@ -103,16 +112,16 @@
         <h1>🎓 班级随机点名系统</h1>
         <div id="name-display">准备就绪</div>
         <button class="btn" id="start-btn" onclick="toggleRoll()">开始抽签</button>
+        <div class="copyright">Powered by xumh Studio</div>
     </div>
 
     <script>
-        // 39位好听的虚拟学生名单
         const students = [
-            "林梓萱","苏语桐","顾若溪","沈曼妮","江雨婷","谢诗涵","许佳怡","陈梦瑶",
-            "谭若琳","钟欣怡","叶子涵","乔雨萱","袁诗琪","夏紫涵","周羽彤","范馨文",
-            "戴诗怡","温舒婷","董若雨","梁晓溪","陆子聪","陆子枫","盛泽轩","唐宇轩",
-            "薛慕白","萧逸枫","沈浩然","徐子骞","程宇航","崔俊杰","韩睿哲","高梓豪",
-            "孙景源","卢思源","金宇航","罗浩轩","彭博文","何瑞霖","马子默"
+            "卜星童","陈逸菲","傅梦涵","黄子依","金鲜娜","郎惠瑗","李晗雪","李宛倩",
+            "马若琳","泮弈彤","汪佳烨","王心冉","王祉喧","魏溢楠","吴紫涵","夏馨苗",
+            "肖伊婷","杨瑾萱","杨泽媛","叶子聪","俞获葳","岳星语","张晚柠","赵子晗",
+            "郑依雪","朱雨璇","陈涛","冯思诚","阮茂林","王泽予","韦琛烨","吴文哲",
+            "夏权鑫","谢嘉兴","徐铭浩","杨仇昊","叶鹏磊","郑俊昊","郑苏杭"
         ];
 
         let timer = null;
@@ -120,19 +129,14 @@
         const display = document.getElementById('name-display');
         const btn = document.getElementById('start-btn');
 
-        // 点名控制主逻辑
         function toggleRoll() {
             if (isRolling) {
-                // 停止点名
                 clearInterval(timer);
                 isRolling = false;
                 btn.innerText = "开始抽签";
-                display.style.transform = "scale(1.15)"; // 中签名字放大特效
-                
-                // 触发全屏烟花
+                display.style.transform = "scale(1.15)";
                 initFireworks();
             } else {
-                // 开始点名
                 isRolling = true;
                 btn.innerText = "就这位了！";
                 display.style.transform = "scale(1.0)";
@@ -140,13 +144,11 @@
                 
                 timer = setInterval(() => {
                     const randomIndex = Math.floor(Math.random() * students.length);
-                    // 动态显示：学号 + 姓名
                     display.innerText = `第 ${randomIndex + 1} 号：${students[randomIndex]}`;
-                }, 50); // 50毫秒闪烁一次
+                }, 50);
             }
         }
 
-        /* ================= 烟花特效引擎 ================= */
         const canvas = document.getElementById('fireworks');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -183,7 +185,7 @@
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.04; // 重力加速度
+                this.vy += 0.04;
                 this.alpha -= this.decay;
             }
         }
@@ -204,7 +206,6 @@
                 p.draw();
             });
 
-            // 随机在空中不断产生新烟花
             if (Math.random() < 0.05 && particles.length < 300) {
                 createExplosion(Math.random() * canvas.width, Math.random() * (canvas.height * 0.6));
             }
@@ -214,7 +215,6 @@
 
         function initFireworks() {
             resizeCanvas();
-            // 在中央和两侧先炸三个大的
             createExplosion(canvas.width / 2, canvas.height / 3);
             createExplosion(canvas.width * 0.25, canvas.height / 2);
             createExplosion(canvas.width * 0.75, canvas.height / 2);
