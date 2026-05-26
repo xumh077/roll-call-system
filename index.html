@@ -83,7 +83,7 @@
             opacity: 0.9;
         }
 
-        .name-display-box {
+        。name-display-box {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 20px;
             width: 100%;
@@ -164,7 +164,7 @@
             opacity: 0.7;
         }
 
-        .status-bar {
+        。status-bar {
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -173,7 +173,7 @@
             padding-top: 20px;
         }
 
-        .stats {
+        。stats {
             font-size: 1.1rem;
             background: rgba(0,0,0,0.3);
             padding: 10px 20px;
@@ -245,11 +245,11 @@
 
     <script>
         const originalNames = [
-            "卜星童","陈逸菲","傅梦涵","黄子依","金鲜娜","郎惠瑗","李晗雪","李宛倩",
-            "马若琳","泮弈彤","汪佳烨","王心冉","王祉喧","魏溢楠","吴紫涵","夏馨苗",
-            "肖伊婷","杨瑾萱","杨泽媛","叶子聪","余获葳","岳星语","张晚柠","赵子晗",
-            "郑依雪","朱雨璇","陈涛","冯思诚","阮茂林","王泽予","韦琛烨","吴文哲",
-            "夏权鑫","谢嘉兴","徐铭浩","杨仇昊","叶鹏磊","郑俊昊","郑苏杭"
+           "林梓萱"，"苏语桐","顾若溪","沈曼妮","江雨婷","谢诗涵","许佳怡","陈梦瑶",
+"谭若琳","钟欣怡","叶子涵","乔雨萱","袁诗琪","夏紫涵","周羽彤","范馨文",
+"戴诗怡","温舒婷","董若雨","梁晓溪","陆子聪","陆子枫","盛泽轩","唐宇轩",
+"薛慕白","萧逸枫","沈浩然","徐子骞","程宇航","崔俊杰","韩睿哲","高梓豪",
+"孙景源","卢思源","金宇航","罗浩轩","彭博文","何瑞霖","马子默"
         ];
         const studentList = originalNames.map((name, index) => ({
             id: String(index + 1).padStart(2, '0'),
@@ -289,7 +289,7 @@
             isRunning = true;
             btnStart.disabled = true;
             btnStop.disabled = false;
-            idEl.style.display = "block";
+            idEl。style.display = "block";
             
             displayBox.style.transform = "scale(0.98)";
             
@@ -297,7 +297,7 @@
                 selectedStudent = getRandomStudent();
                 idEl.innerText = selectedStudent.id;
                 displayEl.innerText = selectedStudent.name;
-            }, 50);
+            }， 50);
         });
 
         btnStop.addEventListener('click', () => {
