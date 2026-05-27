@@ -12,17 +12,19 @@ def get_base_path():
 if __name__ == '__main__':
     base_path = get_base_path()
     html_file = os.path.join(base_path, 'index.html')
-    icon_file = os.path.join(base_path, 'icon.png')  # 绑定你的新图标
+    icon_file = os.path.join(base_path, 'icon.png')  # 运行时加载的任务栏图标
 
+    # 创建窗口，完美全屏，去除了引发崩溃的 icon 传参
     window = webview.create_window(
         title='J254专属随机点名系统',
         url=html_file,
-        icon=icon_file,      # 【新增】加入自定义图标
         width=1280,
         height=800,
         resizable=True,
-        fullscreen=True,     # 启动自动全屏，免去手动拉大
-        text_select=False
-                             # 【已修改】删除了 confirm_close=True，关闭时不再弹窗确认
+        fullscreen=True,     # 启动时自动全屏展示
+        text_select=False,
+        confirm_close=True
     )
-    webview.start()
+    
+    # 正确的运行时图标注入方式
+    webview.start(icon=icon_file)
