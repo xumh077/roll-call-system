@@ -30,6 +30,7 @@
             align-items: center;
             overflow: hidden;
             color: var(--text-main);
+            cursor: pointer;
         }
 
         @keyframes gradientBG {
@@ -63,6 +64,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            cursor: default;
         }
 
         .header {
@@ -219,6 +221,14 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+        .fullscreen-tip {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -230,6 +240,7 @@
     <canvas id="confetti-canvas"></canvas>
 
     <div class="glass-container">
+        <div class="fullscreen-tip">💡 提示：双击空白处可以切换网页全屏</div>
         <div class="header">
             <h1>The Spotlight System</h1>
             <h2>— J254专属随机点名系统 —</h2>
@@ -267,6 +278,7 @@
             "郑依雪","朱雨璇","陈涛","冯思诚","阮茂林","王泽予","韦琛烨","吴文哲",
             "夏权鑫","谢嘉兴","徐铭浩","杨仇昊","叶鹏磊","郑俊昊","郑苏杭","蒋东恒"
         ];
+
         const studentList = originalNames.map((name, index) => ({
             id: String(index + 1).padStart(2, '0'),
             name: name
@@ -297,7 +309,8 @@
             return currentStudents[randomIndex];
         }
 
-        btnStart.addEventListener('click', () => {
+        btnStart.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (currentStudents.length === 0) {
                 alert("所有同学都已点过名啦，请点击重置名单！");
                 return;
@@ -315,7 +328,8 @@
             }, 50);
         });
 
-        btnStop.addEventListener('click', () => {
+        btnStop.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (!isRunning) return;
             isRunning = false;
             clearInterval(timer);
@@ -334,7 +348,8 @@
             fireConfetti();
         });
 
-        btnReset.addEventListener('click', () => {
+        btnReset.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (confirm("确定要重置并清空已点名录吗？")) {
                 clearInterval(timer);
                 currentStudents = [...studentList];
@@ -346,6 +361,20 @@
                 btnStop.disabled = true;
                 isRunning = false;
                 updateStatus();
+            }
+        });
+
+        document.querySelector('.glass-container').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        document.body.addEventListener('dblclick', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`全屏失败: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
             }
         });
 
