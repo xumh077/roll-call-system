@@ -12,14 +12,17 @@ def get_base_path():
 if __name__ == '__main__':
     base_path = get_base_path()
     html_file = os.path.join(base_path, 'index.html')
+    icon_file = os.path.join(base_path, 'icon.png')  # 绑定你的新图标
 
     window = webview.create_window(
-        title='班级专属随机点名系统',
+        title='J254专属随机点名系统',
         url=html_file,
-        width=900,
-        height=700,
+        icon=icon_file,      # 【新增】加入自定义图标
+        width=1280,
+        height=800,
         resizable=True,
-        text_select=False,
-        confirm_close=True
+        fullscreen=True,     # 启动自动全屏，免去手动拉大
+        text_select=False
+                             # 【已修改】删除了 confirm_close=True，关闭时不再弹窗确认
     )
     webview.start()
