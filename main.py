@@ -17,16 +17,7 @@ if __name__ == '__main__':
     html_file = os.path.normpath(os.path.join(base_path, 'index.html'))
     icon_file = os.path.normpath(os.path.join(base_path, 'icon.png'))
 
-    # 兜底防御：如果打包配置漏了文件，直接弹窗报错，不再默默转圈卡死
-    if not os.path.exists(html_file):
-        import tkinter as tk
-        from tkinter import messagebox
-        root = tk.Tk()
-        root.withdraw()
-        messagebox.showerror("系统错误", f"未找到核心网页文件 index.html\n路径: {html_file}")
-        sys.exit(1)
-
-    # 创建窗口（直接开启全屏模式）
+    # 创建窗口（将引发报错的 icon 参数从 create_window 中移除）
     window = webview.create_window(
         title='J254专属随机点名系统',
         url=html_file,
@@ -38,7 +29,7 @@ if __name__ == '__main__':
         confirm_close=True
     )
     
-    # 正确的运行时任务栏图标注入方式
+    # 这才是老版本 pywebview 正确的任务栏图标注入方式
     if os.path.exists(icon_file):
         webview.start(icon=icon_file)
     else:
