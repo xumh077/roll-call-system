@@ -34,14 +34,16 @@ jobs:
             img = Image.open('icon.png')
             img.save('icon.ico', format='ICO', sizes=[(256, 256), (128, 128), (64, 64), (32, 32)])
 
+    # ==================== 帮您修改了这一步 ====================
     - name: Build with PyInstaller
       shell: cmd
       run: |
         if exist icon.ico (
-            pyinstaller --noconsole --onefile --add-data "index.html;." --icon="icon.ico" main.py
+            pyinstaller --noconsole --onefile --add-data "index.html;." --add-data "icon.png;." --icon="icon.ico" main.py
         ) else (
             pyinstaller --noconsole --onefile --add-data "index.html;." main.py
         )
+    # ========================================================
 
     - name: Upload EXE Artifact
       uses: actions/upload-artifact@v4
